@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Washing Machine Creator</title>
-	<script src="jquery.js"></script>
 	<script src="positionList.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<link rel="stylesheet" href="stylesheet.css">
 
@@ -13,10 +13,11 @@
 	<button id="clear">Clear List</button>
 	<div id="leftPanel">	
 	</div>
-<script>
 
+<script>
 //index of all positions
 var posNumber = [];
+
 //on load, go over position list, create the divs with the positions and hide them
 function allPositions () {
 	for (i = 0; i <= positionList.length+1; i++){
@@ -28,19 +29,20 @@ function allPositions () {
 	}
 }
 
-//On number input, show the number of positions the user keyed in. Position order is shuffled.
+//On quantity input, position order is shuffled, show the number of positions the user keyed in.
 $('.quantity').on('keyup', function (){
 	posNumber = _.shuffle(posNumber);
 	var quantity = +$(this).val();
 	for (var i = 0; i < quantity; i++) {
 	  $('.positions_'+ posNumber[i] +'').prependTo('#leftPanel').show();
 	};	
+	$('.quantity').hide(200);
 });
 
 //Hides the visible positions
 $('#clear').on('click', function (){
 	$('.positions').hide();
-	$('.quantity').focus().val('')
+	$('.quantity').show(200).focus().val('')
 });
 
 //Initial generation of positions
