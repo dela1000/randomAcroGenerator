@@ -6,3 +6,7 @@
 	width: auto;
 	height: 23px;
 }
+
+#rightPanel{
+	display: none;
+}
