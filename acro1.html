@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Washing Machine Generator</title>
-	<script src="positionList.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-	<link rel="stylesheet" href="stylesheet.css">
-</head>
-<body>
+  <head>
+    <title>Washing Machine Generator</title>
+    <script src="positionList.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
+  </head>
+  <body>
     <input class="quantity">
-	<button id="clear">Clear</button>
-	<div id="leftPanel"></div>
-	<div id="rightPanel"></div>	
+    <button id="clear">Clear</button>
+    <div id="leftPanel"></div>
+    <div id="rightPanel"></div> 
 
-<script>
-//index of all positions
-var posNumber = [];
-var quantity;
+    <script>
+      //index of all positions
+      var posNumber = [];
+      var quantity;
 
-//on load, go over position list, create the divs with the positions and hide them
-function allPositions () {
-	for (i = 0; i < positionList.length; i++){
-	  posNumber.push(i)  
-	  var name = positionList[i].name
-      var $posi = $('<div class="positions positions_'+ [i] +' "><a>'+ name +'</a></div>');
-      $posi.prependTo('#leftPanel').hide();
-      $('.quantity').focus()
-	}
-}
+      //on load, go over position list, create the divs with the positions and hide them
+      function allPositions () {
+        for (i = 0; i < positionList.length; i++){
+          posNumber.push(i)  
+          var name = positionList[i].name
+          var $posi = $('<div class="positions positions_'+ [i] +' "><a>'+ name +'</a></div>');
+          $posi.prependTo('#leftPanel').hide();
+          $('.quantity').focus()
+        }
+      }
+  
+      //on quantity input, position order is shuffled, show the number of positions the user keyed in.
+      $('.quantity').on('keyup', function (){
+        var diffSelected = [];    
+        $('.positions').hide();
+        posNumber = _.shuffle(posNumber);
+        quantity = +$(this).val();
+        //display the number of positions desired, gather ratings
+        for (var i = 0; i < quantity; i++) {
+          $('.positions_'+ posNumber[i] +'').appendTo('#leftPanel').show();
+          diffSelected.push(positionList[posNumber[i]].rating);
+        }
+        //calculate difficulty rating
+        diffTotal = _.reduce(diffSelected, function(a, b){
+          return a + b
+        })/quantity
+        $('#rightPanel').text(diffTotal.toFixed(2)).show()
+      });
 
-//On quantity input, position order is shuffled, show the number of positions the user keyed in.
-$('.quantity').on('keyup', function (){
-	var diffSelected = [];	
-	$('.positions').hide();
-	posNumber = _.shuffle(posNumber);
-	quantity = +$(this).val();
-	//display the number of positions desired, gather ratings
-	for (var i = 0; i < quantity; i++) {
-	  $('.positions_'+ posNumber[i] +'').prependTo('#leftPanel').show();
-	  diffSelected.push(positionList[posNumber[i]].rating);
-	}
-	//calculate difficulty rating
-	diffTotal = _.reduce(diffSelected, function(a, b){
-		return a + b
-	})/quantity
-	$('#rightPanel').text(diffTotal.toFixed(2)).show()
-});
+      //hides the visible positions
+      $('#clear').on('click', function (){
+        $('.positions').hide();
+        $('#rightPanel').hide();
+        $('.quantity').focus().val('')
+      });
 
-//Hides the visible positions
-$('#clear').on('click', function (){
-	$('.positions').hide();
-	$('#rightPanel').hide();
-	$('.quantity').focus().val('')
-});
-
-//Initial generation of positions
-$(document).ready(function () {
-	allPositions();
-	$('.quantity').focus()
-})	
-</script>
-</body>
+      //initial generation of positions
+      $(document).ready(function () {
+        allPositions();
+        $('.quantity').focus()
+      })    
+    </script>
+  </body>
 </html>

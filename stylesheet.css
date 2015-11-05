@@ -1,12 +1,17 @@
 .body{
 	font-family: Helvetica;
 }
-
 .positions{
 	width: auto;
 	height: 23px;
 }
-
+.postions a{
+	font-size: 20px;
+}
 #rightPanel{
 	display: none;
+}
+.quantity{
+	font-size: 15px;
+
 }

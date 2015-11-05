@@ -144,6 +144,6 @@ var positionList = [
 				"difficulty": "Advanced",
 				"on": "Hands",
 				"inverted": false,
-				"rating": 4.0
+				"rating": 5.0
 			}
 ];
